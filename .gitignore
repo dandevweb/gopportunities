@@ -1,2 +1,10 @@
 
 .vscode/
+*.exe
+*.dll
+*.so
+*.dylib
+
+*.test
+
+db/
