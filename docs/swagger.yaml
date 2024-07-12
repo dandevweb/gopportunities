@@ -33,6 +33,15 @@ definitions:
       message:
         type: string
     type: object
+  handler.ListOpeningsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/schema.OpeningResponse'
+        type: array
+      message:
+        type: string
+    type: object
   handler.ShowOpeningResponse:
     properties:
       data:
@@ -67,6 +76,24 @@ info:
   contact: {}
 paths:
   /openings:
+    get:
+      consumes:
+      - application/json
+      description: List all openings
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ListOpeningsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: List openings
+      tags:
+      - openings
     post:
       consumes:
       - application/json
