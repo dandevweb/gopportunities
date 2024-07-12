@@ -49,6 +49,13 @@ definitions:
       message:
         type: string
     type: object
+  handler.UpdateOpeningResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schema.OpeningResponse'
+      message:
+        type: string
+    type: object
   schema.OpeningResponse:
     properties:
       company:
@@ -183,6 +190,44 @@ paths:
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       summary: Delete  opening
+      tags:
+      - openings
+    put:
+      consumes:
+      - application/json
+      description: Update an opening
+      parameters:
+      - description: Opening ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateOpeningRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UpdateOpeningResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Update opening
       tags:
       - openings
 swagger: "2.0"
