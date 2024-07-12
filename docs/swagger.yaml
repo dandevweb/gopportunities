@@ -21,6 +21,11 @@ definitions:
       message:
         type: string
     type: object
+  handler.DeleteOpeningResponse:
+    properties:
+      message:
+        type: string
+    type: object
   handler.ErrorResponse:
     properties:
       errorCode:
@@ -82,6 +87,39 @@ paths:
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       summary: Create  opening
+      tags:
+      - openings
+  /openings/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an opening
+      parameters:
+      - description: Opening ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/handler.DeleteOpeningResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Delete  opening
       tags:
       - openings
 swagger: "2.0"
