@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/dandevweb/gopportunities/schema"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,4 +28,14 @@ func sendNoContent(ctx *gin.Context) {
 
 func headerJson(ctx *gin.Context) {
 	ctx.Header("Content-Type", "application/json")
+}
+
+type ErrorResponse struct {
+	Message   string `json:"message"`
+	ErrorCode int    `json:"errorCode"`
+}
+
+type CreateOpeningResponse struct {
+	Message string                 `json:"message"`
+	Data    schema.OpeningResponse `json:"data"`
 }
