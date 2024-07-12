@@ -33,6 +33,13 @@ definitions:
       message:
         type: string
     type: object
+  handler.ShowOpeningResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schema.OpeningResponse'
+      message:
+        type: string
+    type: object
   schema.OpeningResponse:
     properties:
       company:
@@ -87,6 +94,35 @@ paths:
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       summary: Create  opening
+      tags:
+      - openings
+  /openings/:id:
+    get:
+      consumes:
+      - application/json
+      description: Show an opening
+      parameters:
+      - description: Opening ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ShowOpeningResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Show opening
       tags:
       - openings
   /openings/{id}:
