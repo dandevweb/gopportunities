@@ -20,6 +20,11 @@ func sendSuccess(ctx *gin.Context, op string, data interface{}) {
 	})
 }
 
+func sendNoContent(ctx *gin.Context) {
+	headerJson(ctx)
+	ctx.JSON(http.StatusNoContent, nil)
+}
+
 func headerJson(ctx *gin.Context) {
 	ctx.Header("Content-Type", "application/json")
 }
