@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/dandevweb/gopportunities/schema"
+	"github.com/dandevweb/gopportunities/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,6 +19,7 @@ import (
 // @Failure 400 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Router /openings [post]
+// @Security BearerAuth
 func CreateOpeningHandler(ctx *gin.Context) {
 	request := CreateOpeningRequest{}
 
@@ -30,7 +31,7 @@ func CreateOpeningHandler(ctx *gin.Context) {
 		return
 	}
 
-	opening := schema.Opening{
+	opening := model.Opening{
 		Role:     request.Role,
 		Company:  request.Company,
 		Location: request.Location,

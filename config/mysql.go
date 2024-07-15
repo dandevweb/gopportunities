@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/dandevweb/gopportunities/schema"
+	"github.com/dandevweb/gopportunities/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -29,9 +29,9 @@ func InitializeMySql() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	err = db.AutoMigrate(&schema.Opening{})
+	err = db.AutoMigrate(&model.Opening{}, &model.User{})
 	if err != nil {
-		logger.Errorf("Error migrating schema: %v", err)
+		logger.Errorf("Error migrating model: %v", err)
 		return nil, err
 	}
 

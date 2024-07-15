@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/dandevweb/gopportunities/schema"
+	"github.com/dandevweb/gopportunities/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,8 +17,9 @@ import (
 // @Success 200 {object} ListOpeningsResponse
 // @Failure 500 {object} ErrorResponse
 // @Router /openings [get]
+// @Security BearerAuth
 func ListOpeningsHandler(ctx *gin.Context) {
-	openings := []schema.Opening{}
+	openings := []model.Opening{}
 	if err := db.Find(&openings).Error; err != nil {
 		logger.Errorf("error finding openings: %v", err.Error())
 		sendError(ctx, http.StatusInternalServerError, err.Error())

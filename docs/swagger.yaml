@@ -17,7 +17,7 @@ definitions:
   handler.CreateOpeningResponse:
     properties:
       data:
-        $ref: '#/definitions/schema.OpeningResponse'
+        $ref: '#/definitions/model.OpeningResponse'
       message:
         type: string
     type: object
@@ -37,26 +37,57 @@ definitions:
     properties:
       data:
         items:
-          $ref: '#/definitions/schema.OpeningResponse'
+          $ref: '#/definitions/model.OpeningResponse'
         type: array
+      message:
+        type: string
+    type: object
+  handler.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  handler.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  handler.RegisterRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  handler.RegisterResponse:
+    properties:
+      data:
+        $ref: '#/definitions/model.UserResponse'
       message:
         type: string
     type: object
   handler.ShowOpeningResponse:
     properties:
       data:
-        $ref: '#/definitions/schema.OpeningResponse'
+        $ref: '#/definitions/model.OpeningResponse'
       message:
         type: string
     type: object
   handler.UpdateOpeningResponse:
     properties:
       data:
-        $ref: '#/definitions/schema.OpeningResponse'
+        $ref: '#/definitions/model.OpeningResponse'
       message:
         type: string
     type: object
-  schema.OpeningResponse:
+  model.OpeningResponse:
     properties:
       company:
         type: string
@@ -79,9 +110,54 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.UserResponse:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Login
+      tags:
+      - auth
   /openings:
     get:
       consumes:
@@ -98,6 +174,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: List openings
       tags:
       - openings
@@ -127,6 +205,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Create  opening
       tags:
       - openings
@@ -156,6 +236,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Show opening
       tags:
       - openings
@@ -189,6 +271,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Delete  opening
       tags:
       - openings
@@ -227,7 +311,45 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Update opening
       tags:
       - openings
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Register
+      tags:
+      - auth
+securityDefinitions:
+  Bearer:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

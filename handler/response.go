@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dandevweb/gopportunities/schema"
+	"github.com/dandevweb/gopportunities/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,8 +36,8 @@ type ErrorResponse struct {
 }
 
 type CreateOpeningResponse struct {
-	Message string                 `json:"message"`
-	Data    schema.OpeningResponse `json:"data"`
+	Message string                `json:"message"`
+	Data    model.OpeningResponse `json:"data"`
 }
 
 type DeleteOpeningResponse struct {
@@ -45,16 +45,25 @@ type DeleteOpeningResponse struct {
 }
 
 type ShowOpeningResponse struct {
-	Message string                 `json:"message"`
-	Data    schema.OpeningResponse `json:"data"`
+	Message string                `json:"message"`
+	Data    model.OpeningResponse `json:"data"`
 }
 
 type ListOpeningsResponse struct {
-	Message string                   `json:"message"`
-	Data    []schema.OpeningResponse `json:"data"`
+	Message string                  `json:"message"`
+	Data    []model.OpeningResponse `json:"data"`
 }
 
 type UpdateOpeningResponse struct {
-	Data    schema.OpeningResponse `json:"data"`
-	Message string                 `json:"message"`
+	Data    model.OpeningResponse `json:"data"`
+	Message string                `json:"message"`
+}
+
+type RegisterResponse struct {
+	Message string             `json:"message"`
+	Data    model.UserResponse `json:"data"`
+}
+
+type LoginResponse struct {
+	Token string `json:"token"`
 }

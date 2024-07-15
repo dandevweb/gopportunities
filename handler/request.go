@@ -36,3 +36,37 @@ func (r *CreateOpeningRequest) Validate() error {
 	}
 	return nil
 }
+
+type RegisterRequest struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+func (r *RegisterRequest) Validate() error {
+	if r.Name == "" {
+		return errParamIsRequired("name", "string")
+	}
+	if r.Email == "" {
+		return errParamIsRequired("email", "string")
+	}
+	if r.Password == "" {
+		return errParamIsRequired("password", "string")
+	}
+	return nil
+}
+
+type LoginRequest struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+func (r *LoginRequest) Validate() error {
+	if r.Email == "" {
+		return errParamIsRequired("email", "string")
+	}
+	if r.Password == "" {
+		return errParamIsRequired("password", "string")
+	}
+	return nil
+}

@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/dandevweb/gopportunities/schema"
+	"github.com/dandevweb/gopportunities/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,13 +19,14 @@ import (
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
 // @Router /openings/:id [get]
+// @Security BearerAuth
 func ShowOpeningHandler(ctx *gin.Context) {
 	id := ctx.Param("id")
 	if id == "" {
 		sendError(ctx, http.StatusBadRequest, "id is required")
 		return
 	}
-	opening := schema.Opening{}
+	opening := model.Opening{}
 	if err := db.First(&opening, id).Error; err != nil {
 		logger.Errorf("error finding opening: %v", err.Error())
 		sendError(ctx, http.StatusNotFound, err.Error())
