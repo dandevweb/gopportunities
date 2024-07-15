@@ -2,27 +2,51 @@ package config
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/dandevweb/gopportunities/docs"
+	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
 
 var (
-	db     *gorm.DB
-	logger *Logger
+	db         *gorm.DB
+	logger     *Logger
+	connection string
 )
 
 func Init() error {
+	envErr := godotenv.Load()
+	if envErr != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	connection = os.Getenv("DB_CONNECTION")
+	if connection == "" {
+		return fmt.Errorf("DB_CONNECTION environment variable not set")
+	}
+
 	var err error
-	db, err = InitializeSQLite()
-	if err != nil {
-		return fmt.Errorf("error initializing sqlite: %v", err)
+
+	if connection == "mysql" {
+		db, err = InitializeMySql()
+		if err != nil {
+			return fmt.Errorf("error initializing mysql: %v", err)
+		}
+	}
+
+	if connection == "sqlite" {
+		db, err = InitializeSQLite()
+		if err != nil {
+			return fmt.Errorf("error initializing sqlite: %v", err)
+		}
 	}
 
 	return nil
 }
 
-func GetSQLite() *gorm.DB {
+func GetDatabase() *gorm.DB {
 	return db
 }
 
